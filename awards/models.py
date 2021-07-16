@@ -62,3 +62,12 @@ class Review(models.Model):
     project = models.ForeignKey(Project,null=True,on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User,null=True,blank=True,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user
+
+    def save_review(self):
+        self.save()
+
+    def delete_review(self):
+        self.delete()
