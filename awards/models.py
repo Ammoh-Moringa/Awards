@@ -11,7 +11,11 @@ class Profile(models.Model):
       timestamp = models.DateTimeField(default=timezone.now())
       user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile",primary_key=True)
 
-      
+      def __str__(self):
+        return self.user.username
+
+      def delete_profile(self):
+        self.delete()  
  
 
 
