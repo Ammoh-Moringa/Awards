@@ -32,6 +32,16 @@ class Project(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 
+    def __str__(self):
+        return self.title
+
+    def save_project(self):
+        self.save()
+
+    def delete_project(self):
+        self.delete()
+
+
 class Review(models.Model):
     REVIEW_CHOICES = (
         (1, '1'),
