@@ -9,6 +9,9 @@ class Profile(models.Model):
       bio = models.TextField(max_length=500, default="My Bio", blank=True)
       contact = models.CharField(max_length=60,blank=True)
       timestamp = models.DateTimeField(default=timezone.now())
+      user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile",primary_key=True)
+
+      
  
 
 
