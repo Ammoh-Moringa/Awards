@@ -1,5 +1,5 @@
 {%extends "registration/base.html"%}
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 {% block content %}
 <div class="container">
   <div class="row">
@@ -16,7 +16,7 @@
         </div>
         <div class="panel-body">
 
-          <form  action="/accounts/login/" method="post">
+          <form  action="" method="post">
             {% csrf_token %}
             {% bootstrap_form form%}
 
@@ -25,6 +25,7 @@
             </div>
 
             <input type="hidden" name="next" value="{{next}}">
+            <p>Don't have an account? <a href="/registration">Signup</a></p>
 
           </form>
 
