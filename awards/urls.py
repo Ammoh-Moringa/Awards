@@ -13,6 +13,7 @@ urlpatterns=[
     url('logout/',auth_views.LogoutView.as_view(), name='logout'),
     url('profile/', views.profile, name='profile'),
     url(r'^upload/$',views.new_project,name='add_project'),
+    url(r'^project_details/(?P<id>\d+)', views.project_details, name='projectdetails'),
     
     
 ]

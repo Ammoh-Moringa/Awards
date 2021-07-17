@@ -73,3 +73,12 @@ def new_project(request):
 	else:
 			form = ProjectForm()
 	return render(request, 'project.html',{"form":form})
+
+
+@login_required(login_url='/accounts/login')
+def project_details(request,id):
+    project = Project.objects.get(id = id)
+    reviews = Review.objects.order_by('-timestamp')
+
+    context={"project":project,"reviews":reviews}
+    return render(request, 'project_details.html',context)
