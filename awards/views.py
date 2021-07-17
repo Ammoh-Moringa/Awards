@@ -32,7 +32,6 @@ def profile(request, username):
     title = "Profile"
     profile = User.objects.get(username=username)
     users = User.objects.get(username=username)
-    id = request.user.id
     form = ProfileForm()
 
     try :
@@ -42,4 +41,4 @@ def profile(request, username):
 
 
     projects = Project.get_profile_pic(profile.id)
-    return render(request, 'registration/profile.html', {'title':title,'profile':profile,"projects":projects, 'profile_info':profile_info,"form":form})
+    return render(request, 'registration/profile.html', {'title':title,'profile':profile,"projects":users, 'users':profile_info,"form":form,"projects":projects,})
