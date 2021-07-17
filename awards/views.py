@@ -1,5 +1,5 @@
 from awards.models import Profile, Project, Review
-from awards.forms import ProfileForm, SignUpForm, UserUpdateForm
+from awards.forms import ProfileForm, ProjectForm, SignUpForm, UserUpdateForm
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -58,3 +58,20 @@ def profile(request):
         }
 
     return render(request, 'registration/profile.html', params)
+
+
+@login_required(login_url='/accounts/login')
+def new_project(request):
+	current_user = request.user
+	if request.method == 'POST':
+		form = ProjectForm(request.POST,request.FILES)
+		if form.is_valid():
+			new_project = form.save(commit=False)
+			new_project.user = current_user
+			new_project.save()
+            # messages.success(request, "Image uploaded!")
+			return redirect('index')
+	else:
+			form = ProjectForm()
+            # context= {"form":form}
+	return render(request, 'project.html',{"form":form})
