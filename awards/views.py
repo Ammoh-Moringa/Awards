@@ -1,4 +1,4 @@
-from awards.models import Profile, Project
+from awards.models import Profile, Project, Review
 from awards.forms import ProfileForm, SignUpForm
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate
@@ -8,9 +8,15 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
-def index (request):
-  return render(request,'index.html')
+def index(request):
 
+    profiles = Profile.objects.all()
+    projects = Project.objects.all()
+    reviews = Review.objects.all()
+
+    context ={"profiles":profiles,"projects":projects,"reviews":reviews}
+
+    return render(request,'index.html',context)
 
 
 def registration(request):
@@ -34,11 +40,7 @@ def profile(request, username):
     users = User.objects.get(username=username)
     form = ProfileForm()
 
-    try :
-        profile_info = Profile.get_by_id(profile.id)
-    except:
-        profile_info = Profile.filter_by_id(profile.id)
+   
 
 
-    projects = Project.get_profile_pic(profile.id)
-    return render(request, 'registration/profile.html', {'title':title,'profile':profile,"projects":users, 'users':profile_info,"form":form,"projects":projects,})
+    return render(request, 'registration/profile.html', {'title':title,'profile':profile,"projects":users,"form":form})
