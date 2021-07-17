@@ -1,5 +1,5 @@
 from awards.models import Profile, Project, Review
-from awards.forms import ProfileForm, SignUpForm
+from awards.forms import ProfileForm, SignUpForm, UserUpdateForm
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -33,14 +33,28 @@ def registration(request):
         form= SignUpForm()
     return render(request, 'registration/registration_form.html', {"form":form}) 
 
-@login_required(login_url='/accounts/login/')
-def profile(request, username):
-    title = "Profile"
-    profile = User.objects.get(username=username)
-    users = User.objects.get(username=username)
-    form = ProfileForm()
+@login_required(login_url='/accounts/login/')    
+def profile(request):
+    if request.method == 'POST':
 
-   
+        userForm = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(
+            request.POST, request.FILES, instance=request.user)
 
+        if  profile_form.is_valid():
+            profile_form.save()
 
-    return render(request, 'registration/profile.html', {'title':title,'profile':profile,"projects":users,"form":form})
+            return redirect('home')
+
+    else:
+        
+        profile_form = ProfileForm(instance=request.user)
+        user_form = UserUpdateForm(instance=request.user)
+
+        params = {
+            'user_form':user_form,
+            'profile_form': profile_form
+
+        }
+
+    return render(request, 'registration/profile.html', params)

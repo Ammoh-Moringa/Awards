@@ -47,7 +47,7 @@ sty
             <div class="panel-footer">
                   <h3>
 
-                  username :   {{ profile.username }}
+                  username :   {{ user.username }}
 
                 </h3>
 
@@ -66,7 +66,7 @@ sty
 
                               <p style="font-size:30px;">
 
-                                 <a class="btn btn-lg btn-info" href="{% url 'update_profile'%}">Edit Profile</a>
+                                 <a class="btn btn-lg btn-info" href="/">Edit Profile</a>
                               </p>
                       {%endif%}
             </div>
@@ -81,7 +81,7 @@ sty
             <div class="panel-footer">
                   <h5>
 
-                  Joined PyAwwards   {{ profile_info.timestamp | timesince }} ago
+                  Logged into DIAMONDAWARS   {{ profile_info.timestamp | timesince }} ago
 
                 </h5>
 
@@ -98,17 +98,14 @@ sty
     {% if profile.username == user.username %}
     <h2>You have {{ projects | length}} projects
 <span>
-  <a class="btn btn-info btn-block" href="{% url 'add_project' %}" >Add Project</a>
+  <a class="btn btn-info btn-block" href="/" >Add Project</a>
 
 </span>
     </h2>
-      <!-- <a class="btn btn-info btn-block" href="{% url 'add_project' %}" >  <i class="fas fa-cloud-upload-alt"></i></a> to upload</h4></span> -->
-      <!-- <a class="btn btn-info btn-block" href="{% url 'add_project' %}" >Add Project</a> -->
 
     {%else%}
     <h3>
       This user has {{ projects | length}} projects
-  <!-- <a class="btn btn-info btn-block" href="{% url 'add_project' %}" >Add Project</a> -->
     </h3>
         {%endif%}
     {%endif%}
