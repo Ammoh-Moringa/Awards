@@ -50,6 +50,7 @@ def search_projects(request):
         message = "You haven't searched for any term"
         return render(request, 'search.html',{"message":message})
 
+
 @login_required(login_url='/accounts/login/')    
 def profile(request):
     if request.method == 'POST':

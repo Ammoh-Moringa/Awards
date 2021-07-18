@@ -46,6 +46,11 @@ class Project(models.Model):
         project = Project.objects.filter(id =id)
         return project
 
+    @classmethod
+    def search_by_title(cls,search_term):
+    	projects = cls.objects.filter(title__icontains=search_term)
+    	return projects
+
 
 class Review(models.Model):
     REVIEW_CHOICES = (
