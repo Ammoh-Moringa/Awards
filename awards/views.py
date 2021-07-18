@@ -1,4 +1,3 @@
-from typing import Reversible
 from django.http.response import HttpResponseRedirect
 from awards.models import Profile, Project, Review
 from awards.forms import ProfileForm, ProjectForm, ReviewForm, SignUpForm, UserUpdateForm
@@ -7,7 +6,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render,redirect,get_object_or_404
-
+from django.urls import reverse
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
@@ -96,7 +95,8 @@ def review_project(request,project_id):
             review.content = content
             review.average = (review.design + review.usability + review.content)/3
             review.save()
-            return HttpResponseRedirect(Reversible('projectdetails', args=(project.id,)))
+          
+            return HttpResponseRedirect(reverse('projectdetails', args=(project.id,)))
     else:
         form = ReviewForm()
     return render(request, 'reviews.html', {"user":current_user,"project":proj,"form":form})
