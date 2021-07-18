@@ -34,6 +34,22 @@ def registration(request):
         form= SignUpForm()
     return render(request, 'registration/registration_form.html', {"form":form}) 
 
+def search_projects(request):
+    if 'title' in request.GET and request.GET["title"]:
+
+        search_term = request.GET.get("title")
+        found_projects = Project.search_by_title(search_term)
+        message = f"{search_term}"
+        print(search_term)
+
+        context = {"found_projects":found_projects,"message":message}
+
+        return render(request, 'search.html',context)
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'search.html',{"message":message})
+
 @login_required(login_url='/accounts/login/')    
 def profile(request):
     if request.method == 'POST':
