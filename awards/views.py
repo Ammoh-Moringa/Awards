@@ -1,10 +1,12 @@
+from typing import Reversible
+from django.http.response import HttpResponseRedirect
 from awards.models import Profile, Project, Review
-from awards.forms import ProfileForm, ProjectForm, SignUpForm, UserUpdateForm
+from awards.forms import ProfileForm, ProjectForm, ReviewForm, SignUpForm, UserUpdateForm
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-
+from django.shortcuts import render,redirect,get_object_or_404
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -73,6 +75,31 @@ def new_project(request):
 	else:
 			form = ProjectForm()
 	return render(request, 'project.html',{"form":form})
+
+
+@login_required(login_url='/accounts/login/')
+def review_project(request,project_id):
+    proj = Project.project_by_id(id=project_id)
+    project = get_object_or_404(Project, pk=project_id)
+    current_user = request.user
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            design = form.cleaned_data['design']
+            usability = form.cleaned_data['usability']
+            content = form.cleaned_data['content']
+            review = Review()
+            review.project = project
+            review.user = current_user
+            review.design = design
+            review.usability = usability
+            review.content = content
+            review.average = (review.design + review.usability + review.content)/3
+            review.save()
+            return HttpResponseRedirect(Reversible('projectdetails', args=(project.id,)))
+    else:
+        form = ReviewForm()
+    return render(request, 'reviews.html', {"user":current_user,"project":proj,"form":form})
 
 
 @login_required(login_url='/accounts/login')
