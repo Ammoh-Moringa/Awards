@@ -1,3 +1,4 @@
+from awards.serializer import ProfileSerializer, ProjectSerializer
 from django.http.response import HttpResponseRedirect
 from awards.models import Profile, Project, Review
 from awards.forms import ProfileForm, ProjectForm, ReviewForm, SignUpForm, UserUpdateForm
@@ -7,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render,redirect,get_object_or_404
 from django.urls import reverse
+from rest_framework.response import Response
+from rest_framework.views import APIView
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
@@ -126,3 +129,24 @@ def project_details(request,id):
 
     context={"project":project,"reviews":reviews}
     return render(request, 'project_details.html',context)
+
+class ProfileList(APIView):
+    """
+    List all snippets, or create a new snippet.
+    """
+
+    def get(self, request, format=None):
+        profiles = Profile.objects.all()
+        serializer = ProfileSerializer(profiles, many=True)
+        return Response(serializer.data)
+
+
+class ProjectList(APIView):
+    """
+    List all snippets, or create a new snippet.
+    """
+
+    def get(self, request, format=None):
+        projects = Project.objects.all()
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
