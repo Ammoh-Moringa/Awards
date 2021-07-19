@@ -1,3 +1,4 @@
+from awards.permissions import IsAdminOrReadOnly
 from awards.serializer import ProfileSerializer, ProjectSerializer
 from django.http.response import HttpResponseRedirect
 from awards.models import Profile, Project, Review
@@ -10,6 +11,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
@@ -139,6 +141,16 @@ class ProfileList(APIView):
         profiles = Profile.objects.all()
         serializer = ProfileSerializer(profiles, many=True)
         return Response(serializer.data)
+
+    
+    def post(self, request, format=None):
+        serializers = ProjectSerializer(data=request.data)
+        permission_classes = (IsAdminOrReadOnly,)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class ProjectList(APIView):
