@@ -61,11 +61,14 @@ On the localhost navigate to admin where all the posts and authentications are m
 3. Git
 4. Django 3.2.5
 
+## API Endpoints
 
+* [Profiles Endpoints](https://diamondawards.herokuapp.com/api/profilelist)
+* [Projects Endpoints](https://diamondawards.herokuapp.com/v1/projectlist)
 
 ## License
 The project is under the [MIT](licence) license.
 
 ### live site
 
-View [live]()
+View [live](https://diamondawards.herokuapp.com/)
