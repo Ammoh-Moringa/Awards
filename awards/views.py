@@ -13,7 +13,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 # Create your views here.
-@login_required(login_url='/accounts/login/')
 def index(request):
 
     profiles = Profile.objects.all()
@@ -39,6 +38,7 @@ def registration(request):
         form= SignUpForm()
     return render(request, 'registration/registration_form.html', {"form":form}) 
 
+@login_required(login_url='/accounts/login/')
 def search_projects(request):
     if 'title' in request.GET and request.GET["title"]:
 
