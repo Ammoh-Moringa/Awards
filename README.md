@@ -64,7 +64,7 @@ On the localhost navigate to admin where all the posts and authentications are m
 ## API Endpoints
 
 * [Profiles Endpoints](https://diamondawards.herokuapp.com/api/profilelist)
-* [Projects Endpoints](https://diamondawards.herokuapp.com/v1/projectlist)
+* [Projects Endpoints](https://diamondawards.herokuapp.com/api/projectslist
 
 ## License
 The project is under the [MIT](licence) license.
