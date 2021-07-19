@@ -3,16 +3,17 @@ from .models import *
 from django.contrib.auth.models import User
 import datetime as dt
 from django.utils import timezone
-# Create your tests here.
+# Test Class Profile
+
 class ProfileTestClass(TestCase):
-    #Set up Method
+    #set up Method
     def setUp(self):
         '''
         test case for profiles
         '''
         self.user = User(username='Kiprotich')
         self.user.save()
-        self.profile = Profile(photo='black and orange',bio='programmer',contact="0701111780",user=self.user)
+        self.profile = Profile( profile_picture='black and orange',bio='programmer',contact="0701111780",user=self.user)
         self.profile.save_profile()
 
 
@@ -32,3 +33,27 @@ class ProfileTestClass(TestCase):
         self.profile.delete_profile()
         profile = Profile.objects.all()
         self.assertTrue(len(profile) == 0)
+
+# Test Class Project
+
+class ProjectTestClass(TestCase):
+
+    def setUp(self):
+        self.project = Project(title ='Tiger', image='tiger.jpg',description="Tiger",link="https://en.wikipedia.org/wiki/Tiger")
+
+    def tearDown(self):
+        Project.objects.all().delete()
+
+    def test_instance(self):
+        self.assertTrue(isinstance(self.project, Project))
+
+    def test_save_method(self):
+        self.project.save_project()
+        projects = Project.objects.all()
+        self.assertTrue(len(projects)>0)
+    def test_delete_method(self):
+        self.project.save_project()
+        projects = Project.objects.all()
+        self.project.delete_project()
+        projects = Project.objects.all()
+        self.assertTrue(len(projects)==0)
